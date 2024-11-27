@@ -17,7 +17,31 @@ RESET='\033[0m'
 
 set_up_database() {
     python -c "from database_ops import create_db_and_tables; create_db_and_tables()"
-    python -c "from predict_ops import setup_auto_author_prediction_tables; setup_auto_author_prediction_tables()"    
+    python -c "from predict_ops import setup_auto_author_prediction_tables; setup_auto_author_prediction_tables()"
+}
+
+main_menu() {
+    tput clear;
+    printf "\n\tdh-trace\n\n"
+    printf "\tChoose an option\n\t1. Create a new project/collection of texts\n\t2. Work on an existing project\n\t3. Quit\n\n"
+
+    read -rp "[1|2|3]  " action_choice
+
+    if [ "${action_choice}" == 3 ]; then
+        exit 0;
+
+    elif [ "${action_choice}" == 1 ]; then
+        initialize_new_project
+        break
+
+    elif [ "${action_choice}" == 2 ]; then
+        choose_project
+        break
+
+    else
+        printf "Unknown option, try again"
+        main_loop
+    fi
 }
 
 #Kicks off at the start. Sets up a new project, or moves you on to picking an existing project.
@@ -60,7 +84,7 @@ initialize_new_project () {
         fi        
 
     elif [ "$lower_choice" == "n" ]; then
-        choose_project
+        exit 0
     else
         initialize_new_project
     fi
@@ -169,4 +193,4 @@ do_more_work () {
 }
 
 #Check if we're starting a new project.
-initialize_new_project
+main_menu
