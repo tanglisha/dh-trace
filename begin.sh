@@ -32,11 +32,11 @@ main_menu() {
 
     elif [ "${action_choice}" == 1 ]; then
         initialize_new_project
-        break
+        return
 
     elif [ "${action_choice}" == 2 ]; then
         choose_project
-        break
+        return
 
     else
         printf "Unknown option, try again"
